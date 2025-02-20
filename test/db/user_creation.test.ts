@@ -11,7 +11,7 @@ describe("User Creation", () => {
     const client = await pool.connect();
 
     const userResult = await client.query(
-      `INSERT INTO users (email, password) VALUES ('testuser@example.com', 'testpassword') RETURNING id;`
+      `INSERT INTO users (email, password) VALUES ('testuser@example.com', 'testpassword') RETURNING id;`,
     );
 
     console.log(userResult.rows);
