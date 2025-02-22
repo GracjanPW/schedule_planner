@@ -18,16 +18,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  auth,
   children,
 }: Readonly<{
   children: React.ReactNode;
+  auth: React.ReactNode;
 }>) {
+  const userAuthed = false;
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        {!userAuthed && auth}
       </body>
     </html>
   );
