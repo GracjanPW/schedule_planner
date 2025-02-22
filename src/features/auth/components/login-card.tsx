@@ -1,5 +1,4 @@
-import { LoginForm } from "@/components/auth/login-form";
-import Link from "next/link";
+import { LoginForm } from "@/features/auth/components/login-form";
 import { AuthCard } from "./auth-card";
 
 export function LoginCard({
@@ -16,14 +15,8 @@ export function LoginCard({
       modal={modal}
       title={title}
       description={description}
-      footer={
-        <p>
-          Don&apos;t have an account?&nbsp;
-          <Link href="/auth/register" className="text-blue-600">
-            Register
-          </Link>
-        </p>
-      }
+      footer="Don't have an account?"
+      footerLink="/auth/register"
     >
       <div className="w-full">
         <LoginForm />

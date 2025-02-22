@@ -1,6 +1,5 @@
 import { RegisterForm } from "./register-form";
 import { AuthCard } from "./auth-card";
-import Link from "next/link";
 
 export function RegisterCard({
   modal = false,
@@ -16,14 +15,8 @@ export function RegisterCard({
       modal={modal}
       title={title}
       description={description}
-      footer={
-        <p>
-          Have an account already?&nbsp;
-          <Link href="/auth/login" className="text-blue-600">
-            login
-          </Link>
-        </p>
-      }
+      footer="Already have an account?"
+      footerLink="/auth/login"
     >
       <div>
         <RegisterForm />
