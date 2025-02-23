@@ -4,7 +4,7 @@ import { CreateUser, FindUserByEmail } from "@/db/user";
 import { registerationSchema } from "../schema";
 import { hash } from "bcryptjs";
 
-export default async function (
+export default async function RegisterAction(
   _prevState: any,
   formData: FormData,
 ): Promise<{

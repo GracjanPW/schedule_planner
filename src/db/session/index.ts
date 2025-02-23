@@ -20,7 +20,7 @@ export async function FindSessionById(
     client.release();
     if (!res.rowCount) return null;
     return res.rows[0];
-  } catch (error) {
+  } catch {
     client?.release();
     return undefined;
   }
@@ -40,7 +40,7 @@ export async function CreateSession(
     client.release();
     if (!res.rowCount) return null;
     return res.rows[0];
-  } catch (error) {
+  } catch {
     client?.release();
     return undefined;
   }
@@ -57,7 +57,7 @@ export async function DeleteSession(
     ]);
     client.release();
     return res.rowCount;
-  } catch (error) {
+  } catch {
     client?.release();
     return undefined;
   }

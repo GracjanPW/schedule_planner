@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { CreateSession } from "@/db/session";
 
-export default async function (
+export default async function LoginAction(
   _prevState: any,
   formData: FormData,
 ): Promise<{
@@ -63,8 +63,8 @@ export default async function (
       },
     };
   }
-  const COOKIE_NAME = process.env.SESSION_COOKIE
-  if (!COOKIE_NAME) throw new Error("SESSION_COOKIE env var not set")
+  const COOKIE_NAME = process.env.SESSION_COOKIE;
+  if (!COOKIE_NAME) throw new Error("SESSION_COOKIE env var not set");
 
   cookieStore.set(COOKIE_NAME, session.uuid, {
     httpOnly: true,

@@ -22,7 +22,7 @@ export async function FindUserByEmail(
     client.release();
     if (!res.rowCount) return null;
     return res.rows[0];
-  } catch (error) {
+  } catch {
     client?.release();
     return undefined;
   }
@@ -43,13 +43,15 @@ export async function FindUserById(
   }
 }
 
-export async function FindUserSessionBySessionId(uuid:string|null|undefined) {
+export async function FindUserSessionBySessionId(
+  uuid: string | null | undefined,
+) {
   if (!uuid) return null;
 
   const session = await FindSessionById(uuid as string);
   if (!session) return null;
   if (isBefore(session.expires_at, Date.now())) {
-    await DeleteSession(uuid)
+    await DeleteSession(uuid);
     return null;
   }
   const user = await FindUserById(session.user_id);
@@ -74,7 +76,7 @@ export async function CreateUser(data: {
     client.release();
     if (!res.rowCount) return null;
     return res.rows[0];
-  } catch (error) {
+  } catch {
     client?.release();
     return undefined;
   }
@@ -91,7 +93,7 @@ export async function RemoveUserByEmail(
     ]);
     client.release();
     return res.rowCount;
-  } catch (error) {
+  } catch {
     client?.release();
     return undefined;
   }
