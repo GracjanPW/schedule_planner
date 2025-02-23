@@ -1,4 +1,6 @@
 -- Enter migration here
+DROP TABLE IF EXISTS sessions;
+
 DROP TABLE IF EXISTS profiles;
 
 DROP TABLE IF EXISTS users;
@@ -19,3 +21,10 @@ CREATE TABLE profiles (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE sessions (
+    uuid UUID PRIMARY KEY,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP + INTERVAL '1 day',
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

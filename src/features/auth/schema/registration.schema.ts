@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const registerationSchema = z
+export default z
   .object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -9,5 +9,3 @@ const registerationSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
   });
-
-export default registerationSchema;
