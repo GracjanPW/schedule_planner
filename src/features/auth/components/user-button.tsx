@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import { LogoutAction } from "../actions";
 
 export function UserButton() {
   return (
@@ -23,7 +24,7 @@ export function UserButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={LogoutAction}>
           <LogOut />
           Logout
         </DropdownMenuItem>
