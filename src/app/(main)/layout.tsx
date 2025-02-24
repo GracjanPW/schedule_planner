@@ -1,5 +1,7 @@
 import { Auth } from "@/features/auth";
 import { DashboardHeader } from "@/components/dashboard-header";
+import { DashboardSideNav } from "@/components/dashboard-side-nav";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default async function Layout({
   auth,
@@ -10,10 +12,16 @@ export default async function Layout({
 }>) {
   const session = await Auth();
   return (
-    <>
-      <DashboardHeader />
-      {children}
+    <div className="">
+        <SidebarProvider>
+          <DashboardSideNav />
+          <main className="w-full">
+            <DashboardHeader />
+
+          {children}
+          </main>
+        </SidebarProvider>
       {!session && auth}
-    </>
+    </div>
   );
 }
