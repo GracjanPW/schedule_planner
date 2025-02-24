@@ -11,17 +11,15 @@ export type Session = {
 export async function FindSessionById(
   sessionUUID: string,
 ): Promise<Session | null | undefined> {
-  let client;
   try {
-    client = await db.connect();
-    const res = await client.query("SELECT * FROM sessions WHERE uuid = $1", [
+    const res = await db.query("SELECT * FROM sessions WHERE uuid = $1", [
       sessionUUID,
     ]);
-    client.release();
+    console.log({ res });
     if (!res.rowCount) return null;
     return res.rows[0];
-  } catch {
-    client?.release();
+  } catch (e) {
+    console.log(e);
     return undefined;
   }
 }
@@ -30,18 +28,14 @@ export async function CreateSession(
   sessionUUID: string,
   userId: number,
 ): Promise<Session | null | undefined> {
-  let client;
   try {
-    client = await db.connect();
-    const res = await client.query(
+    const res = await db.query(
       "INSERT INTO sessions (uuid, user_id) values ($1, $2) RETURNING uuid",
       [sessionUUID, userId],
     );
-    client.release();
     if (!res.rowCount) return null;
     return res.rows[0];
   } catch {
-    client?.release();
     return undefined;
   }
 }
@@ -51,14 +45,11 @@ export async function DeleteSession(
 ): Promise<number | null | undefined> {
   let client;
   try {
-    client = await db.connect();
-    const res = await client.query("DELETE FROM sessions WHERE uuid = $1", [
+    const res = await db.query("DELETE FROM sessions WHERE uuid = $1", [
       sessionUUID,
     ]);
-    client.release();
     return res.rowCount;
   } catch {
-    client?.release();
     return undefined;
   }
 }

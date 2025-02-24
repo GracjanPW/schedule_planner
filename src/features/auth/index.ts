@@ -11,6 +11,7 @@ if (!COOKIE_NAME) throw new Error("SESSION_COOKIE env var not set");
 
 export async function Auth(): Promise<UserSession | null> {
   const cookieStore = await cookies();
+
   const sessionID = cookieStore.get(COOKIE_NAME!);
 
   const session = FindUserSessionBySessionId(sessionID?.value);
