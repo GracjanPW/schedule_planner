@@ -15,7 +15,6 @@ export async function FindSessionById(
     const res = await db.query("SELECT * FROM sessions WHERE uuid = $1", [
       sessionUUID,
     ]);
-    console.log({ res });
     if (!res.rowCount) return null;
     return res.rows[0];
   } catch (e) {

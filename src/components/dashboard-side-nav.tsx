@@ -39,7 +39,7 @@ export function DashboardSideNav() {
           <SidebarGroupContent>
             <SidebarMenu>
               {MAIN_OPTIONS.map(({ text, href, icon: Icon }) => (
-                <SidebarMenuItem>
+                <SidebarMenuItem key={href}>
                   <SidebarMenuButton asChild>
                     <Link href={href}>
                       <Icon />
