@@ -13,14 +13,14 @@ export default async function Layout({
   const session = await Auth();
   return (
     <div className="">
-        <SidebarProvider>
-          <DashboardSideNav />
-          <main className="w-full">
-            <DashboardHeader />
+      <SidebarProvider>
+        <DashboardSideNav />
+        <main className="w-full">
+          <DashboardHeader />
 
           {children}
-          </main>
-        </SidebarProvider>
+        </main>
+      </SidebarProvider>
       {!session && auth}
     </div>
   );

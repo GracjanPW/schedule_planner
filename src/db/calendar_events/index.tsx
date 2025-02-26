@@ -19,7 +19,7 @@ export async function CreateCalendarEvent({
   all_day = true,
   title,
   description = "",
-}: Omit<CalendarEvent, "id">): Promise<CalendarEvent|null|undefined> {
+}: Omit<CalendarEvent, "id">): Promise<CalendarEvent | null | undefined> {
   if (all_day) {
     start_time = null;
     end_time = null;
@@ -42,17 +42,12 @@ export async function CreateCalendarEvent({
         title, 
         description
     ) VALUES (
-     $1, 
-     $2, 
-     $3, 
-     $4, 
-     $5, 
-     $6, 
-     $7
-     )`,
+     $1, $2, $3, $4, $5, $6, $7
+    )`,
       [user_id, event_date, start_time, end_time, all_day, title, description],
     )
     .then((res) => {
+      if (!res.rowCount) return null;
       return res.rows[0];
     })
     .catch((e) => {
