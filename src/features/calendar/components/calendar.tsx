@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import {
   addMonths,
   eachDayOfInterval,
-  EachDayOfIntervalResult,
   endOfMonth,
   endOfWeek,
   formatDate,
@@ -16,16 +15,30 @@ import {
 } from "date-fns";
 import { MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import useScheduleModal from "../hooks/use-schedule-modal";
+import useCalendarDayModal from "../hooks/use-calendar-day-modal";
+import { CalendarEvent } from "@/db/calendar_events";
 
 const DaysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export function Calendar() {
   const [viewingDate, setViewingDate] = useState(new Date());
-  const [dates, setDates] = useState<any[]>([]);
-  const { setOpen } = useScheduleModal();
+  const [dates, setDates] = useState<Record<string,CalendarEvent[]>>({});
+  const { setOpen } = useCalendarDayModal();
 
   useEffect(() => {
+    const getEvents = async (from: Date, end: Date) => {
+      // TODO: fix caching so that cache gets revalidated when the user creates a new event
+      const res = await fetch(
+        `/api/calendar/events?from_date=${from}&to_date=${end}`,
+        {
+          cache: "force-cache",
+          next: { tags: [formatDate(viewingDate, "yyyy-MM")] },
+        },
+      );
+      const data = await res.json();
+      setDates(data);
+    };
+
     const startOfMonthDate = startOfMonth(viewingDate);
     const start = startOfWeek(startOfMonthDate);
     const endOfMonthDate = endOfMonth(viewingDate);
@@ -34,7 +47,7 @@ export function Calendar() {
       start,
       end,
     });
-    setDates(dates);
+    getEvents(start, end);
   }, [viewingDate]);
 
   const incDateByMonth = () => setViewingDate((prev) => addMonths(prev, 1));
@@ -63,13 +76,13 @@ export function Calendar() {
             {day}
           </div>
         ))}
-        {dates.map((date, i) => (
+        {Object.keys(dates).map((date, i) => (
           <div
             key={i}
             className={cn(
               "min-h-12 h-full flex flex-col justify-start align-middle",
             )}
-            onClick={() => setOpen(date, [])}
+            onClick={() => setOpen(new Date(date), dates[date])}
           >
             <p
               className={cn(
@@ -80,12 +93,6 @@ export function Calendar() {
             >
               {formatDate(date, "d")}
             </p>
-            {i === 6 && (
-              <>
-                <div>dfsfd</div>
-                <div>dsf</div>
-              </>
-            )}
           </div>
         ))}
       </div>
